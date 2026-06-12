@@ -1,0 +1,10 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*_cache/
+/doc/
+/Meta/
+/inst/doc/
+renv/library/
+renv/staging/

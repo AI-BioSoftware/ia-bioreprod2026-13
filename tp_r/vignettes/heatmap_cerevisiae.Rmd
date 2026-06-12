@@ -1,8 +1,12 @@
 ---
 title: "Heatmap – *Saccharomyces cerevisiae* periodic genes"
-author: ""
+author: "Audrey Onfroy"
 date: "`r Sys.Date()`"
-output: html_document
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Heatmap – Saccharomyces cerevisiae periodic genes}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE}
@@ -26,7 +30,8 @@ We load the supplementary table from Kelliher et al. 2016. It contains normalise
 
 ```{r load-data}
 n_top = 1246
-data_file = "../data/pgen.1006453.s002.xlsx"
+data_file = system.file("extdata", "pgen.1006453.s002.xlsx",
+                        package = "heatmapcerevisiae", mustWork = TRUE)
 raw = readxl::read_xlsx(path = data_file, sheet = 1, skip = 2)
 ```
 

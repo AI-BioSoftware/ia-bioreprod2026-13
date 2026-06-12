@@ -27,15 +27,28 @@ Les 1246 gènes sont sélectionnés selon deux critères issus de l'article : `n
 
 ## Code R
 
-Le script se trouve dans [`tp_r/heatmap_cerevisiae.Rmd`](./tp_r/heatmap_cerevisiae.Rmd).
+Le script se trouve dans [`tp_r/vignettes/heatmap_cerevisiae.Rmd`](./tp_r/vignettes/heatmap_cerevisiae.Rmd).
 
-Il est écrit en **R Markdown** et produit un rapport HTML. Pour le générer :
+Il est packagé sous la forme d'un **package R** (`heatmapcerevisiae`). Le répertoire `tp_r/` contient la structure standard d'un package R : `DESCRIPTION`, `NAMESPACE`, `R/`, `vignettes/`.
+
+Pour générer le rapport HTML depuis R :
 
 ```r
-rmarkdown::render("tp_r/heatmap_cerevisiae.Rmd")
+rmarkdown::render("tp_r/vignettes/heatmap_cerevisiae.Rmd")
 ```
 
-Le fichier HTML de sortie est généré dans `tp_r/heatmap_cerevisiae.html`.
+Ou, après installation du package :
+
+```r
+# Initialiser l'environnement renv (une seule fois)
+source("tp_r/setup.R")
+
+# Construire et installer le package
+devtools::install("tp_r", build_vignettes = TRUE)
+
+# Ouvrir la vignette
+vignette("heatmap_cerevisiae", package = "heatmapcerevisiae")
+```
 
 ### Dépendances R
 

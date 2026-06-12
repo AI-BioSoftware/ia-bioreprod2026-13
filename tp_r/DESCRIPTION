@@ -1,0 +1,34 @@
+Package: heatmapcerevisiae
+Title: Reproduction of Figure 2A from Kelliher et al. 2016
+Version: 0.1.0
+Authors@R:
+    person(
+      given = "Audrey",
+      family = "Onfroy",
+      role = c("aut", "cre"),
+      email = "audrey.onfroy@ibens.fr",
+      comment = c(ORCID = "0009-0003-1429-4230")
+    )
+Description: Reproduces the heatmap of the top 1246 periodic genes in
+    Saccharomyces cerevisiae (Figure 2A) from Kelliher CM et al. (2016)
+    PLoS Genet 12(12): e1006453. Expression profiles are z-scored and
+    ordered by peak expression time using the supplementary data table.
+License: CC BY-SA 4.0
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+VignetteBuilder: knitr
+Depends:
+    R (>= 4.2.0)
+Imports:
+    dplyr (>= 1.1.0),
+    readxl (>= 1.4.0),
+    pheatmap (>= 1.0.12),
+    grid
+Suggests:
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0),
+    lintr,
+    styler,
+    oysteR
