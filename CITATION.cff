@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+message: "Si vous utilisez ce logiciel, merci de le citer comme ci-dessous."
+type: software
+title: "AI-for-scripting-bioanalysis"
+abstract: "Reproduction de la figure 2A de Kelliher et al. 2016 (PLoS Genetics) à l'aide d'un script R généré et amélioré avec l'aide d'une IA générative, dans le cadre d'un atelier de bioinformatique sur les bonnes pratiques de développement logiciel."
+authors:
+  - family-names: "Onfroy"
+    given-names: "Audrey"
+    orcid: "https://orcid.org/0009-0003-1429-4230"
+    affiliation: "IBENS"
+  - family-names: "Messak"
+    given-names: "Imane"
+    orcid: "https://orcid.org/0000-0002-1654-6652"
+    affiliation: "Institut Français de Bioinformatique"
+  - family-names: "Denecker"
+    given-names: "Thomas"
+    orcid: "https://orcid.org/0000-0003-1421-7641"
+    affiliation: "Institut Français de Bioinformatique"
+  - family-names: "Rousseau"
+    given-names: "Baptiste"
+    orcid: "https://orcid.org/0009-0002-1723-2732"
+    affiliation: "Institut Français de Bioinformatique"
+repository-code: "https://github.com/IFB-ElixirFr/AI-for-scripting-bioanalysis"
+license: CC-BY-SA-4.0
+version: "0.1.0"
+date-released: "2026-06-12"
+keywords:
+  - bioinformatique
+  - R
+  - heatmap
+  - cell-cycle
+  - reproducible-research

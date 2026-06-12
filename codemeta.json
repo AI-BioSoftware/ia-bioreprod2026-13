@@ -1,0 +1,64 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+  "@type": "SoftwareSourceCode",
+  "name": "AI-for-scripting-bioanalysis",
+  "description": "Reproduction de la figure 2A de Kelliher et al. 2016 (PLoS Genetics) à l'aide d'un script R généré et amélioré avec l'aide d'une IA générative, dans le cadre d'un atelier de bioinformatique sur les bonnes pratiques de développement logiciel.",
+  "version": "0.1.0",
+  "dateCreated": "2026-06-12",
+  "datePublished": "2026-06-12",
+  "license": "https://spdx.org/licenses/CC-BY-SA-4.0.html",
+  "programmingLanguage": {
+    "@type": "ComputerLanguage",
+    "name": "R"
+  },
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Audrey",
+      "familyName": "Onfroy",
+      "@id": "https://orcid.org/0009-0003-1429-4230",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "IBENS"
+      }
+    },
+    {
+      "@type": "Person",
+      "givenName": "Imane",
+      "familyName": "Messak",
+      "@id": "https://orcid.org/0000-0002-1654-6652",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Institut Français de Bioinformatique"
+      }
+    },
+    {
+      "@type": "Person",
+      "givenName": "Thomas",
+      "familyName": "Denecker",
+      "@id": "https://orcid.org/0000-0003-1421-7641",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Institut Français de Bioinformatique"
+      }
+    },
+    {
+      "@type": "Person",
+      "givenName": "Baptiste",
+      "familyName": "Rousseau",
+      "@id": "https://orcid.org/0009-0002-1723-2732",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Institut Français de Bioinformatique"
+      }
+    }
+  ],
+  "codeRepository": "https://github.com/IFB-ElixirFr/AI-for-scripting-bioanalysis",
+  "keywords": [
+    "bioinformatique",
+    "R",
+    "heatmap",
+    "cell-cycle",
+    "reproducible-research"
+  ]
+}

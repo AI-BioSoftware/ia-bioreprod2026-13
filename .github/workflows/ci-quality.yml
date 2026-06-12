@@ -1,0 +1,62 @@
+name: R Quality checks
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "4.4"
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev
+
+      - name: Set up renv cache
+        uses: actions/cache@v4
+        with:
+          path: renv/library
+          key: ${{ runner.os }}-renv-${{ hashFiles('tp_r/renv.lock') }}
+          restore-keys: ${{ runner.os }}-renv-
+
+      - name: Restore renv environment
+        working-directory: tp_r
+        run: Rscript -e "install.packages('renv'); renv::restore()"
+
+      - name: Lint with lintr
+        working-directory: tp_r
+        run: |
+          Rscript -e "
+            lintr::lint('heatmap_cerevisiae.Rmd',
+              linters = lintr::linters_with_defaults(
+                lintr::line_length_linter(120),
+                lintr::object_name_linter(styles = 'snake_case')
+              )
+            )
+          "
+
+      - name: Check for security vulnerabilities (oysteR)
+        working-directory: tp_r
+        run: |
+          Rscript -e "
+            library(oysteR)
+            audit <- audit_installed_r_pkgs()
+            vulns <- get_vulnerabilities(audit)
+            if (nrow(vulns) > 0) {
+              print(vulns)
+              stop('Security vulnerabilities detected.')
+            } else {
+              message('No vulnerabilities found.')
+            }
+          "

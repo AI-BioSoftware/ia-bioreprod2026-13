@@ -103,7 +103,13 @@ Consulter les consignes associées à chaque partie du projet :
 - Ajouter l’outil utilisé (Pleiade, ChatGPT, Perplexity, Copilot, etc.)
 - Ajouter le modèle utilisé
 - Ajouter le nombre de requêtes réalisées
+## Session TP R
 
+| Paramètre | Valeur |
+|-----------|--------|
+| Outil utilisé | GitHub Copilot (VS Code) |
+| Modèle utilisé | Claude Sonnet 4.6 |
+| Nombre de requêtes réalisées | ~50 |
 ## Contributor Code of Conduct
 
 Veuillez noter que ce projet est publié avec le [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/). En participant, vous acceptez d’en respecter les termes. Voir le fichier [CODE_OF_CONDUCT](code_of_conduct.md).
