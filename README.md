@@ -1,3 +1,5 @@
+[![DOI_of_the_code](https://img.shields.io/badge/DOI_of_the_code-10.5281/zenodo.20668687-blue)](https://doi.org/10.5281/zenodo.20668687)
+
 # Reproduction de la figure 2A — *Saccharomyces cerevisiae* periodic genes
 
 Ce dépôt a été produit dans le cadre de l'atelier **"Utilisation des IA génératives comme appui à la programmation et au scripting pour la biologie"**, organisé par l'[Institut Français de Bioinformatique (IFB)](https://www.france-bioinformatique.fr/), l'Université Paris Cité ([plateforme iPOP-UP](https://ipop.u-paris.fr/)) et le [Réseau métier en bioinformatique (MERIT)](https://merit.cnrs.fr/).
