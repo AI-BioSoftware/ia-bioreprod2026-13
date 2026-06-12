@@ -1,0 +1,153 @@
+---
+title: "Heatmap – *Saccharomyces cerevisiae* periodic genes"
+author: ""
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+We load the packages of interest:
+
+```{r library}
+library(dplyr)
+
+.libPaths()
+```
+
+
+# Load data
+
+We load the supplementary table from Kelliher et al. 2016. It contains normalised expression profiles for *S. cerevisiae* genes measured across a time-course experiment. We also define `n_top`, the number of top periodic genes to display.
+
+```{r load-data}
+n_top = 1246
+data_file = "../data/pgen.1006453.s002.xlsx"
+raw = readxl::read_xlsx(path = data_file, sheet = 1, skip = 2)
+```
+
+# Filter data
+
+The raw table contains many metadata columns alongside the expression values. We identify the time-point columns by their numeric names. We then keep only the genes that are in the top 1600 by cumulative periodicity rank (`normalized_per_rank`) AND pass the Lomb-Scargle cutoff (`LS_cutoff == "Yes"`). This gives exactly 1246 genes. Genes are ordered along the y-axis using the `Figure2A_order_peaktime` column, which records each gene's peak expression time and is the ordering used in the original figure.
+
+```{r prepare-data}
+# Keep only time-point columns (numeric names: 0, 5, 10, …, 245)
+time_cols = colnames(raw) %>%
+  grepl(pattern = "^[0-9]+$", x = .) %>%
+  which()
+time_sel = dplyr::all_of(x = time_cols)
+
+# Select top 1600 by cumulative rank filtered by Lomb-Scargle cutoff (yields 1246 genes)
+top_genes = raw %>%
+  dplyr::filter(LS_cutoff == "Yes", normalized_per_rank <= 1600) %>%
+  dplyr::mutate(Figure2A_order_peaktime = as.numeric(x = Figure2A_order_peaktime)) %>%
+  dplyr::arrange(dplyr::desc(Figure2A_order_peaktime)) %>%
+  dplyr::pull(gene_ID)
+
+expr = raw %>%
+  dplyr::filter(gene_ID %in% top_genes) %>%
+  dplyr::mutate(Figure2A_order_peaktime = as.numeric(x = Figure2A_order_peaktime)) %>%
+  dplyr::arrange(dplyr::desc(Figure2A_order_peaktime)) %>%
+  dplyr::select(time_sel) %>%
+  as.data.frame()
+rownames(expr) = top_genes
+colnames(expr) = as.numeric(x = colnames(raw)[time_cols])
+```
+
+# Normalise expression
+
+Each gene's expression is z-scored across time points. This step ensures that the heatmap reflects relative dynamics. Genes with different absolute expression levels become comparable. No log transformation is applied, as the figure legend describes only a z-score relative to mean expression.
+
+```{r normalize}
+expr_z = expr %>%
+  base::t() %>%
+  base::scale() %>%
+  base::t() %>%
+  as.data.frame()
+```
+
+# Define time-axis labels
+
+The time course spans 245 minutes with one sample every 5 minutes. Displaying all labels would crowd the x-axis. We therefore show a tick label only every 50 minutes.
+
+```{r time-labels}
+time_points = expr_z %>%
+  base::colnames() %>%
+  base::as.numeric()
+
+col_labels = base::ifelse(test = time_points %% 50 == 0,
+                          yes = base::as.character(time_points),
+                          no = "")
+```
+
+# Build colour palette
+
+We use a diverging palette anchored at black for zero. Negative z-scores are shown in blue and positive z-scores in yellow.
+
+```{r palette}
+pal_colors = c("cyan", "black", "yellow")
+color_palette = grDevices::colorRampPalette(colors = pal_colors)(100)
+```
+
+# Heatmap
+
+Z-scores are clipped to the range −1.5 to 1.5 before plotting. A small number of genes have extreme values. Without clipping, those outliers would compress the colour scale and hide the patterns in the rest of the data.
+
+```{r heatmap, fig.width=7, fig.height=9}
+p = pheatmap::pheatmap(
+  expr_z,
+  color         = color_palette,
+  breaks        = base::seq(from = -1.5, to = 1.5, length.out = 101),
+  na_col        = "red",
+  cluster_rows  = FALSE,
+  cluster_cols  = FALSE,
+  show_rownames = FALSE,
+  show_colnames = TRUE,
+  labels_col    = col_labels,
+  border_color  = NA,
+  main          = base::expression(italic("Saccharomyces cerevisiae")),
+  legend_breaks = c(-1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5),
+  legend_labels = c("-1.5", "-1.0", "-0.5", "0.0", "0.5", "1.0", "1.5"),
+  angle_col     = 0,
+  fontsize_col  = 9,
+  silent        = TRUE
+)
+
+# Draw the heatmap inside a padded viewport to leave room for axis labels
+grid::grid.newpage()
+grid::pushViewport(grid::viewport(
+  x      = grid::unit(x = 0.07, units = "npc"),
+  y      = grid::unit(x = 0.05, units = "npc"),
+  width  = grid::unit(x = 0.88, units = "npc"),
+  height = grid::unit(x = 0.91, units = "npc"),
+  just   = c("left", "bottom")
+))
+grid::grid.draw(x = p$gtable)
+
+grid::popViewport()
+
+# X and Y labels drawn in the outer margin
+grid::grid.text(
+  label = "time (minutes)",
+  x     = grid::unit(x = 0.5, units = "npc"),
+  y     = grid::unit(x = 0.02, units = "npc"),
+  gp    = grid::gpar(fontsize = 10)
+)
+grid::grid.text(
+  label = base::paste0("Top Periodic Genes (", n_top, ")"),
+  x     = grid::unit(x = 0.02, units = "npc"),
+  y     = grid::unit(x = 0.5, units = "npc"),
+  rot   = 90,
+  gp    = grid::gpar(fontsize = 10)
+)
+```
+
+# Session info
+
+```{r session-info}
+utils::sessionInfo()
+```
